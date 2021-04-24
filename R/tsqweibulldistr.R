@@ -3,12 +3,12 @@
 #' @title The q-Weibull distribution
 #'
 #' @description
-#' Density, distribution function, quantile functions and random generation for the \emph{q}-Weibull distribution with shapes \code{shape1} and \code{shape2} and rate \code{rate}. 
+#' Density, distribution function, quantile functions and random generation for the \emph{q}-Weibull distribution with shapes \code{shape1} and \code{shape2} and scale \code{scale}. 
 #' 
 #' @param x,q vector of quantiles
 #' @param p vector of probabilities
 #' @param n number of observations. If \code{length(n) > 1}, the length is taken to be the number required.
-#' @param shape1,shape2,rate shape and rate parameters, the latter defaulting to 1.
+#' @param shape1,shape2,scale shape and scale parameters, the latter defaulting to 1.
 #' @param log logical; if TRUE, probabilities p are given as log(p).
 #' @param lower.tail logical; if TRUE (default), probabilities are \emph{P[X ≤ x]}, otherwise, \emph{P[X > x]}.
 #' 
@@ -36,22 +36,22 @@
 #' 
 #' @examples 
 #' x <- c(0, rlnorm(50))
-#' all.equal(dtsqweibull(x, shape1 = 1, shape2 = 2, rate = pi), dweibull(x, shape = 2, scale = pi))
-#' all.equal(ptsqweibull(x, shape1 = 1, shape2 = 2, rate = pi), pweibull(x, shape = 2, scale = pi))
-#' all.equal(qtsqweibull(x/11, shape1 = 1, shape2 = 2, rate = pi), qweibull(x/11, shape = 2, scale = pi))
+#' all.equal(dtsqweibull(x, shape1 = 1, shape2 = 2, scale = pi), dweibull(x, shape = 2, scale = pi))
+#' all.equal(ptsqweibull(x, shape1 = 1, shape2 = 2, scale = pi), pweibull(x, shape = 2, scale = pi))
+#' all.equal(qtsqweibull(x/11, shape1 = 1, shape2 = 2, scale = pi), qweibull(x/11, shape = 2, scale = pi))
 NULL
 
 #' @rdname tsqweibulldistr
 #' @export
-dtsqweibull <- function (x, shape1, shape2, rate = 1, log = FALSE)
+dtsqweibull <- function (x, shape1, shape2, scale = 1, log = FALSE)
 {
   if (!is.logical(log.arg <- log) || length(log) != 1)
     stop("bad input for argument 'log'")
   rm(log)
   N <- length(x)
   pdf <- numeric(N)
-  pdf <- (( 2 - shape1) * shape2 * x^(shape2 - 1) / rate^shape2) *
-    tsqexp(-(x / rate)^shape2, shape1)
+  pdf <- (( 2 - shape1) * shape2 * x^(shape2 - 1) / scale^shape2) *
+    tsqexp(-(x / scale)^shape2, shape1)
   if (log.arg) {
     return(log(pdf))
   } else {
@@ -61,8 +61,8 @@ dtsqweibull <- function (x, shape1, shape2, rate = 1, log = FALSE)
 
 #' @rdname tsqweibulldistr
 #' @export
-ptsqweibull <- function (q, shape1, shape2, rate = 1, lower.tail=TRUE, log.p = FALSE) {
-  rate1m <- rate/(2 - shape1)^(1/shape2)
+ptsqweibull <- function (q, shape1, shape2, scale = 1, lower.tail=TRUE, log.p = FALSE) {
+  rate1m <- scale/(2 - shape1)^(1/shape2)
   shape1m <- 1 / (2 - shape1)
   cdf <- tsqexp(-(q / rate1m)^shape2, shape1m)
   if(log.p) {
@@ -78,8 +78,8 @@ ptsqweibull <- function (q, shape1, shape2, rate = 1, lower.tail=TRUE, log.p = F
 
 #' @rdname tsqweibulldistr
 #' @export
-qtsqweibull <- function (p, shape1, shape2, rate = 1, lower.tail=TRUE, log.p = FALSE) {
-  rate1m <- rate/(2 - shape1)^(1/shape2)
+qtsqweibull <- function (p, shape1, shape2, scale = 1, lower.tail=TRUE, log.p = FALSE) {
+  rate1m <- scale/(2 - shape1)^(1/shape2)
   shape1m <- 1 / (2 - shape1)
   if(lower.tail) {
     p <- 1 - p
@@ -93,9 +93,9 @@ qtsqweibull <- function (p, shape1, shape2, rate = 1, lower.tail=TRUE, log.p = F
 
 #' @rdname tsqweibulldistr
 #' @export
-rtsqweibull <- function (n, shape1, shape2, rate = 1) {
+rtsqweibull <- function (n, shape1, shape2, scale = 1) {
   u <- runif(n)
   shape1m <- 1 / (2 - shape1)
-  rand <- (-tsqlog(u, shape1m) / (2 - shape1))^(1 / shape2) * rate
+  rand <- (-tsqlog(u, shape1m) / (2 - shape1))^(1 / shape2) * scale
   return(rand)
 }
