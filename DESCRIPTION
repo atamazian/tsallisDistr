@@ -1,0 +1,11 @@
+Package: tsallisDistr
+Type: Package
+Title: Tsallis q-distributions
+Version: 0.0.1
+Author: Araik Tamazian
+Description: Provides functions for Tsallis q-distributions including q-exponential and q-Weibull.
+Depends: R (>= 3.0.0)
+License: MIT
+NeedsCompilation: no
+RoxygenNote: 7.1.1
+Encoding: UTF-8
