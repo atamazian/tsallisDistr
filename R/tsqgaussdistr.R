@@ -3,7 +3,7 @@
 #' @title The q-Gaussian distribution
 #'
 #' @description
-#' Density, distribution function, quantile functions and random generation for the \emph{q}-Gaussian distribution with shape \code{shape} and scale \code{scale}. 
+#' Density and random generation for the \emph{q}-Gaussian distribution with shape \code{shape} and scale \code{scale}. 
 #' 
 #' @param x vector of quantiles
 #' @param n number of observations. If \code{length(n) > 1}, the length is taken to be the number required.
