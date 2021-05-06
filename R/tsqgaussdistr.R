@@ -37,14 +37,14 @@
 #' all.equal(dtsqgauss(x, shape = 1, scale = 2), dnorm(x, mean = 0, sd = 2))
 NULL
 
-#' @rdname dtsqgauss
+#' @rdname tsqgaussdistr
 #' @export
 dtsqgauss <- function(x, shape, location = 0, scale = 1, log = FALSE) {
   if(shape == 1) {
     nc <- sqrt(pi)
   } else {
     nc <- (sqrt(pi)*gamma((3-shape)/(2*shape-2)))/(sqrt(shape-1)*
-                                                         gamma(1/(shape-1)))
+                                                     gamma(1/(shape-1)))
   }
   pdf <- sqrt(scale)*q.exp(-scale*(x-location)^2, shape)/nc
   
@@ -55,7 +55,7 @@ dtsqgauss <- function(x, shape, location = 0, scale = 1, log = FALSE) {
   }   
 }
 
-#' @rdname rtsqgauss
+#' @rdname tsqgaussdistr
 #' @export
 rtsqgauss <- function(n, shape, location = 0, scale = 1) {
   u <- runif(n)
@@ -66,6 +66,6 @@ rtsqgauss <- function(n, shape, location = 0, scale = 1) {
   xm <- location + x * scale  #/ sqrt(scale * (3 - shape))
   ym <- location + y * scale  #/ sqrt(scale * (3 - shape))
   rand <- c(xm, ym)
-
+  
   return(rand)
 }
