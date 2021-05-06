@@ -40,13 +40,16 @@ NULL
 #' @rdname tsqgaussdistr
 #' @export
 dtsqgauss <- function(x, shape, location = 0, scale = 1, log = FALSE) {
+  if (!is.logical(log.arg <- log) || length(log) != 1) {
+    stop("bad input for argument 'log'")
+  }   
   if(shape == 1) {
     nc <- sqrt(pi)
   } else {
     nc <- (sqrt(pi)*gamma((3-shape)/(2*shape-2)))/(sqrt(shape-1)*
                                                      gamma(1/(shape-1)))
   }
-  pdf <- sqrt(scale)*q.exp(-scale*(x-location)^2, shape)/nc
+  pdf <- sqrt(scale)*tsqexp(-scale*(x-location)^2, shape)/nc
   
   if (log.arg) {
     return(log(pdf))
@@ -61,11 +64,12 @@ rtsqgauss <- function(n, shape, location = 0, scale = 1) {
   u <- runif(n)
   v <- runif(n)
   shape1 <- (1 + shape) / (3 - shape)
-  x <- sqrt(-2 * q.log(u, shape1)) * cos(2 * pi * v)
-  y <- sqrt(-2 * q.log(u, shape1)) * sin(2 * pi * v)
+  x <- sqrt(-2 * tsqlog(u, shape1)) * cos(2 * pi * v)
+  y <- sqrt(-2 * tsqlog(u, shape1)) * sin(2 * pi * v)
   xm <- location + x * scale  #/ sqrt(scale * (3 - shape))
   ym <- location + y * scale  #/ sqrt(scale * (3 - shape))
   rand <- c(xm, ym)
   
   return(rand)
 }
+
