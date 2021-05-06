@@ -55,6 +55,8 @@ dtsqgauss <- function(x, shape, location = 0, scale = 1, log = FALSE) {
   }   
 }
 
+#' @rdname rtsqgauss
+#' @export
 rtsqgauss <- function(n, shape, location = 0, scale = 1) {
   u <- runif(n)
   v <- runif(n)
