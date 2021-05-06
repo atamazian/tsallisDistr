@@ -34,7 +34,7 @@ The length of the result is determined by \code{n} for \code{rtsqgauss}, and is 
 The numerical arguments other than \code{n} are recycled to the length of the result. Only the first elements of the logical arguments are used.
 }
 \description{
-Density, distribution function, quantile functions and random generation for the \emph{q}-Gaussian distribution with shape \code{shape} and scale \code{scale}.
+Density and random generation for the \emph{q}-Gaussian distribution with shape \code{shape} and scale \code{scale}.
 }
 \details{
 If \code{shape1} is equal to 1, the \emph{q}-Gaussian distribution becomes the normal distribution.
