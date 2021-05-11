@@ -47,15 +47,17 @@ NULL
 #' @rdname tsqexpdistr
 #' @export
 dtsqexp <- function(x, shape, rate = 1, log = FALSE) {
+  if (shape >= 2) {
+    stop("bad parameter value: 'shape' must be < 2")
+  }
+  if (rate <= 0) {
+    stop("bad parameter value: 'rate' must be > 0")
+  }
   if (!is.logical(log.arg <- log) || length(log) != 1) {
     stop("bad input for argument 'log'")
   }   
   rm(log)
-  if (shape >= 2 | rate <= 0) {
-    pdf <- NaN
-  } else {	
-    pdf <- (2 - shape) * rate*tsqexp(-x*rate, shape)
-  }
+  pdf <- (2 - shape) * rate*tsqexp(-x*rate, shape)
   if (log.arg) {
     return(log(pdf))
   } else {
@@ -67,6 +69,12 @@ dtsqexp <- function(x, shape, rate = 1, log = FALSE) {
 #' @export
 ptsqexp <- function(q, shape, rate = 1, lower.tail = TRUE,
                   log.p = FALSE) {
+  if (shape >= 2) {
+    stop("bad parameter value: 'shape' must be < 2")
+  }
+  if (rate <= 0) {
+    stop("bad parameter value: 'rate' must be > 0")
+  }
   if (!is.logical(log.arg <- log.p) || length(log.p) != 1) {
     stop("bad input for argument 'log'")
   }   
@@ -75,15 +83,11 @@ ptsqexp <- function(q, shape, rate = 1, lower.tail = TRUE,
     stop("bad input for argument 'lower.tail'")
   }   
   
-  if (shape >= 2 | rate <= 0) {
-    cdf <- NaN
-  } else {
-    shape1 <- 1 / (2 - shape)
-    cdf <- tsqexp(- rate * q / shape1, shape1)
-    if (lt.arg) {
-      cdf <- 1 - cdf
-    }		
-  }
+  shape1 <- 1 / (2 - shape)
+  cdf <- tsqexp(- rate * q / shape1, shape1)
+  if (lt.arg) {
+    cdf <- 1 - cdf
+  }		
   if (log.arg) {
     return(log(cdf))
   } else {
@@ -94,26 +98,28 @@ ptsqexp <- function(q, shape, rate = 1, lower.tail = TRUE,
 #' @rdname tsqexpdistr
 #' @export
 qtsqexp <- function(p, shape, rate = 1) {
-  if (shape >= 2 | rate <= 0) {
-    qfunc <- NaN
+  if (shape >= 2) {
+    stop("bad parameter value: 'shape' must be < 2")
   }
-  else {	
-    shape1 <- 1 / (2 - shape)
-    qf <- -shape1 * tsqlog(1 - p, shape1) / rate
+  if (rate <= 0) {
+    stop("bad parameter value: 'rate' must be > 0")
   }
+  shape1 <- 1 / (2 - shape)
+  qf <- -shape1 * tsqlog(1 - p, shape1) / rate
   return(qf)				
 }
 
 #' @rdname tsqexpdistr
 #' @export
 rtsqexp <- function(n, shape, rate = 1) {
-  if (shape >= 2 | rate <= 0) {
-    ans <- NaN
+  if (shape >= 2) {
+    stop("bad parameter value: 'shape' must be < 2")
   }
-  else {	
-    alpha <- runif(n)
-    shape1 <- 1 / (2 - shape)
-    ans <- -shape1 * tsqlog (1 - alpha, shape1) / rate
+  if (rate <= 0) {
+    stop("bad parameter value: 'rate' must be > 0")
   }
+  alpha <- runif(n)
+  shape1 <- 1 / (2 - shape)
+  ans <- -shape1 * tsqlog (1 - alpha, shape1) / rate
   return(ans)	
 }
