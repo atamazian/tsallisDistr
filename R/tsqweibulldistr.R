@@ -45,6 +45,15 @@ NULL
 #' @export
 dtsqweibull <- function (x, shape1, shape2, scale = 1, log = FALSE)
 {
+  if (shape1 >= 2) {
+    stop("bad parameter value: 'shape1' must be < 2")
+  }
+  if (shape2 <= 0) {
+    stop("bad parameter value: 'shape2' must be > 0")
+  }
+  if (scale <= 0) {
+    stop("bad parameter value: 'scale' must be > 0")
+  }
   if (!is.logical(log.arg <- log) || length(log) != 1)
     stop("bad input for argument 'log'")
   rm(log)
@@ -62,6 +71,15 @@ dtsqweibull <- function (x, shape1, shape2, scale = 1, log = FALSE)
 #' @rdname tsqweibulldistr
 #' @export
 ptsqweibull <- function (q, shape1, shape2, scale = 1, lower.tail=TRUE, log.p = FALSE) {
+  if (shape1 >= 2) {
+    stop("bad parameter value: 'shape1' must be < 2")
+  }
+  if (shape2 <= 0) {
+    stop("bad parameter value: 'shape2' must be > 0")
+  }
+  if (scale <= 0) {
+    stop("bad parameter value: 'scale' must be > 0")
+  }
   rate1m <- scale/(2 - shape1)^(1/shape2)
   shape1m <- 1 / (2 - shape1)
   cdf <- tsqexp(-(q / rate1m)^shape2, shape1m)
@@ -79,6 +97,15 @@ ptsqweibull <- function (q, shape1, shape2, scale = 1, lower.tail=TRUE, log.p = 
 #' @rdname tsqweibulldistr
 #' @export
 qtsqweibull <- function (p, shape1, shape2, scale = 1, lower.tail=TRUE, log.p = FALSE) {
+  if (shape1 >= 2) {
+    stop("bad parameter value: 'shape1' must be < 2")
+  }
+  if (shape2 <= 0) {
+    stop("bad parameter value: 'shape2' must be > 0")
+  }
+  if (scale <= 0) {
+    stop("bad parameter value: 'scale' must be > 0")
+  }
   rate1m <- scale/(2 - shape1)^(1/shape2)
   shape1m <- 1 / (2 - shape1)
   if(lower.tail) {
@@ -94,6 +121,15 @@ qtsqweibull <- function (p, shape1, shape2, scale = 1, lower.tail=TRUE, log.p = 
 #' @rdname tsqweibulldistr
 #' @export
 rtsqweibull <- function (n, shape1, shape2, scale = 1) {
+  if (shape1 >= 2) {
+    stop("bad parameter value: 'shape1' must be < 2")
+  }
+  if (shape2 <= 0) {
+    stop("bad parameter value: 'shape2' must be > 0")
+  }
+  if (scale <= 0) {
+    stop("bad parameter value: 'scale' must be > 0")
+  }  
   u <- runif(n)
   shape1m <- 1 / (2 - shape1)
   rand <- (-tsqlog(u, shape1m) / (2 - shape1))^(1 / shape2) * scale
