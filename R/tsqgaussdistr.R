@@ -34,7 +34,7 @@
 #' 
 #' @examples 
 #' x <- c(0, rlnorm(50))
-#' all.equal(dtsqgauss(x, shape = 1, scale = 2), dnorm(x, mean = 0, sd = 2))
+#' all.equal(dtsqgauss(x, shape = 1, scale = 0.5), dnorm(x, mean = 0, sd = 2))
 NULL
 
 #' @rdname tsqgaussdistr
@@ -45,9 +45,15 @@ dtsqgauss <- function(x, shape, location = 0, scale = 1, log = FALSE) {
   }   
   if(shape == 1) {
     nc <- sqrt(pi)
+  } else if(shape < 1) {
+    nc <- (2*sqrt(pi)*gamma(1/(1-shape)))/((3-q)*sqrt(1-q)*gamma((3-q)/(2*(1-q))))
+  } else if(shape > 1 & shape < 3) {
+    nc <- (sqrt(pi)*gamma((3-shape)/(2*shape-2)))/(sqrt(shape-1)*                                                  gamma(1/(shape-1)))
   } else {
-    nc <- (sqrt(pi)*gamma((3-shape)/(2*shape-2)))/(sqrt(shape-1)*
-                                                     gamma(1/(shape-1)))
+    stop("bad parameter value: 'shape' must be < 3")
+  }
+  if (scale <= 0) {
+    stop("bad parameter value: 'scale' must be > 0")
   }
   pdf <- sqrt(scale)*tsqexp(-scale*(x-location)^2, shape)/nc
   
@@ -61,6 +67,12 @@ dtsqgauss <- function(x, shape, location = 0, scale = 1, log = FALSE) {
 #' @rdname tsqgaussdistr
 #' @export
 rtsqgauss <- function(n, shape, location = 0, scale = 1) {
+  if (shape >= 3) {
+    stop("bad parameter value: 'shape' must be < 3")
+  }
+  if (scale <= 0) {
+    stop("bad parameter value: 'scale' must be > 0")
+  }
   u <- runif(n)
   v <- runif(n)
   shape1 <- (1 + shape) / (3 - shape)
