@@ -48,7 +48,7 @@ dtsqgauss <- function(x, shape, location = 0, scale = 1, log = FALSE) {
   } else if(shape < 1) {
     nc <- (2*sqrt(pi)*gamma(1/(1-shape)))/((3-q)*sqrt(1-q)*gamma((3-q)/(2*(1-q))))
   } else if(shape > 1 & shape < 3) {
-    nc <- (sqrt(pi)*gamma((3-shape)/(2*shape-2)))/(sqrt(shape-1)*                                                  gamma(1/(shape-1)))
+    nc <- (sqrt(pi)*gamma((3-shape)/(2*shape-2)))/(sqrt(shape-1)*gamma(1/(shape-1)))
   } else {
     stop("bad parameter value: 'shape' must be < 3")
   }
